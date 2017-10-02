@@ -8,6 +8,8 @@
         public const uint FinishRelease = 0x134;
         public const uint StartHotfix = 0x135;
         public const uint FinishHotfix = 0x136;
+        public const uint StartFeatureBranch = 0x150;
+        public const uint FinishFeatureBranch = 0x151;
 
         public const uint StartFeatureGitHub = 0x3002;
         public const uint FinishFeatureGitHub = 0x3003;

@@ -48,6 +48,15 @@ namespace SamirBoulema.TGit.Commands
             finishHotfix.BeforeQueryStatus += CommandHelper.Hotfix_BeforeQueryStatus;
             CommandHelper.AddCommand(_mcs, finishHotfix);
 
+            //Start/Finish Feature-Branch
+            var startFeatureBranch = CommandHelper.CreateCommand(StartFeatureCommand, PkgCmdIDList.StartFeatureBranch);
+            startFeatureBranch.BeforeQueryStatus += CommandHelper.GitFlow_BeforeQueryStatus;
+            CommandHelper.AddCommand(_mcs, startFeatureBranch);
+
+            var finishFeatureBranch = CommandHelper.CreateCommand(FinishFeatureCommand, PkgCmdIDList.FinishFeatureBranch);
+            finishFeatureBranch.BeforeQueryStatus += CommandHelper.Feature_BeforeQueryStatus;
+            CommandHelper.AddCommand(_mcs, finishFeatureBranch);
+
             //Init
             var init = CommandHelper.CreateCommand(InitCommand, PkgCmdIDList.Init);
             init.BeforeQueryStatus += CommandHelper.GitHubFlow_BeforeQueryStatus;
@@ -85,7 +94,7 @@ namespace SamirBoulema.TGit.Commands
                 FormatCliCommand($"config --add gitflow.prefix.hotfix {flowDialog.GitConfig.HotfixPrefix}") +
                 FormatCliCommand($"config --add gitflow.prefix.versiontag {versionTag}") +
                 (GitHelper.RemoteBranchExists(flowDialog.GitConfig.DevelopBranch) ?
-                    "echo." : 
+                    "echo." :
                     FormatCliCommand($"checkout -b {flowDialog.GitConfig.DevelopBranch}", false)),
                 "Initializing GitFlow"
                 );
@@ -311,7 +320,7 @@ namespace SamirBoulema.TGit.Commands
                     FormatCliCommand("pull") +
                     FormatCliCommand($"merge --no-ff {hotfixBranch}", false),
                 $"Finishing hotfix {hotfixName}",
-                hotfixBranch, null, _options, 
+                hotfixBranch, null, _options,
                     FormatCliCommand($"push origin {EnvHelper.GitConfig.DevelopBranch}") +
                     FormatCliCommand($"push origin {EnvHelper.GitConfig.MasterBranch}") +
                     FormatCliCommand($"push origin {EnvHelper.GitConfig.TagPrefix}{hotfixName}")

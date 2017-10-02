@@ -28,7 +28,7 @@ namespace SamirBoulema.TGit
         {
             base.Initialize();
 
-            _dte = (DTE)GetService(typeof(DTE));        
+            _dte = (DTE)GetService(typeof(DTE));
             var options = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
 
             _events = _dte.Events.SolutionEvents;
@@ -48,18 +48,20 @@ namespace SamirBoulema.TGit
             // Add all menus
             var tgitMenu = CommandHelper.CreateCommand(PkgCmdIDList.TGitMenu);
             var tgitContextMenu = CommandHelper.CreateCommand(PkgCmdIDList.TGitContextMenu);
-            switch (_dte.Version)
-            {
-                case "11.0":
-                case "12.0":
-                    tgitMenu.Text = "TGIT";
-                    tgitContextMenu.Text = "TGIT";
-                    break;
-                default:
-                    tgitMenu.Text = "TGit";
-                    tgitContextMenu.Text = "TGit";
-                    break;
-            }       
+            //switch (_dte.Version)
+            //{
+            //    case "11.0":
+            //    case "12.0":
+            //        tgitMenu.Text = "TGIT";
+            //        tgitContextMenu.Text = "TGIT";
+            //        break;
+            //    default:
+            //        tgitMenu.Text = "TGit";
+            //        tgitContextMenu.Text = "TGit";
+            //        break;
+            //}
+            tgitMenu.Text = "BOKA";
+            tgitContextMenu.Text = "BOKA";
             mcs.AddCommand(tgitMenu);
             mcs.AddCommand(tgitContextMenu);
 
@@ -85,6 +87,6 @@ namespace SamirBoulema.TGit
             EnvHelper.GetGitConfig();
             EnvHelper.GetBranchName();
             EnvHelper.GetStash();
-        }     
+        }
     }
 }
