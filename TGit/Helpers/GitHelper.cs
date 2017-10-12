@@ -6,6 +6,8 @@ namespace SamirBoulema.TGit.Helpers
 {
     public static class GitHelper
     {
+        public static string mainFeatureBranchSuffix = "main";
+
         public static string GetCommitMessage(string commitMessageTemplate, DTE dte)
         {
             if (string.IsNullOrEmpty(commitMessageTemplate)) return string.Empty;

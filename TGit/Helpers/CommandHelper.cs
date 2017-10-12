@@ -50,6 +50,12 @@ namespace SamirBoulema.TGit.Helpers
             ((OleMenuCommand)sender).Enabled = EnvHelper.HasSolutionDir() && EnvHelper.BranchName.StartsWith(EnvHelper.GitConfig.FeaturePrefix);
         }
 
+        public static void FeatureBranch_BeforeQueryStatus(object sender, EventArgs e)
+        {
+            ((OleMenuCommand)sender).Visible = EnvHelper.HasSolutionDir() && EnvHelper.IsGitFlow;
+            ((OleMenuCommand)sender).Enabled = EnvHelper.HasSolutionDir() && EnvHelper.BranchName.StartsWith(EnvHelper.GitConfig.FeaturePrefix);
+        }
+
         public static void Hotfix_BeforeQueryStatus(object sender, EventArgs e)
         {
             ((OleMenuCommand)sender).Visible = EnvHelper.HasSolutionDir() && EnvHelper.IsGitFlow;

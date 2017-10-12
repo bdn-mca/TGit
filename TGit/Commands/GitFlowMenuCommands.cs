@@ -54,7 +54,7 @@ namespace SamirBoulema.TGit.Commands
             CommandHelper.AddCommand(_mcs, startFeatureBranch);
 
             var finishFeatureBranch = CommandHelper.CreateCommand(FinishFeatureBranchCommand, PkgCmdIDList.FinishFeatureBranch);
-            finishFeatureBranch.BeforeQueryStatus += CommandHelper.Feature_BeforeQueryStatus;
+            finishFeatureBranch.BeforeQueryStatus += CommandHelper.FeatureBranch_BeforeQueryStatus;
             CommandHelper.AddCommand(_mcs, finishFeatureBranch);
 
             //Init
@@ -139,7 +139,14 @@ namespace SamirBoulema.TGit.Commands
              * 2. Pull latest changes on feature main
              * 3. Create and switch to a new branch
              */
-            string featureMainBranch = flowOptions.DevelopBranch;
+
+            string featureMainBranch = GitHelper.GetCurrentBranchName(false);
+            if (!featureMainBranch.EndsWith(GitHelper.mainFeatureBranchSuffix))
+            {
+                return;
+            }
+
+            string featureMainBranchPrefix = featureMainBranch.Substring(0, featureMainBranch.Length - GitHelper.mainFeatureBranchSuffix.Length);
 
             ProcessHelper.StartProcessGui(
                 "cmd.exe",
@@ -147,8 +154,8 @@ namespace SamirBoulema.TGit.Commands
                     GitHelper.GetSshSetup() +
                     FormatCliCommand($"checkout {featureMainBranch}") +
                     FormatCliCommand("pull") +
-                    FormatCliCommand($"checkout -b {flowOptions.FeaturePrefix}{featureBranchName} {featureMainBranch}", false),
-                $"Starting feature {featureBranchName}"
+                    FormatCliCommand($"checkout -b {featureMainBranchPrefix}{featureBranchName} {featureMainBranch}", false),
+                $"Starting feature-branch {featureBranchName}"
             );
         }
 
@@ -213,7 +220,12 @@ namespace SamirBoulema.TGit.Commands
              * 5. Delete the local feature branch
              * 6. Delete the remote feature branch
              */
-            string mainFeatureBranch = EnvHelper.GitConfig.DevelopBranch;
+            string mainFeatureBranchFull = GitHelper.GetCurrentBranchName(false);
+            string mainFeatureBranchName = mainFeatureBranchFull
+                .Substring(mainFeatureBranchFull.LastIndexOf('/'));
+            string mainFeatureBranchPrefix = mainFeatureBranchFull
+                .Substring(0, mainFeatureBranchFull.Length - mainFeatureBranchName.Length);
+            string mainFeatureBranch = $"{mainFeatureBranchPrefix}/{GitHelper.mainFeatureBranchSuffix}";
 
             ProcessHelper.StartProcessGui(
                 "cmd.exe",
@@ -222,7 +234,7 @@ namespace SamirBoulema.TGit.Commands
                     FormatCliCommand($"checkout {mainFeatureBranch}") +
                     FormatCliCommand("pull") +
                     FormatCliCommand($"merge --no-ff {featureBranch}", false),
-                $"Finishing feature {featureName}",
+                $"Finishing feature-branch into main: {featureName}",
                 featureBranch, null, _options, FormatCliCommand($"push origin {mainFeatureBranch}")
             );
         }
