@@ -122,7 +122,8 @@ namespace SamirBoulema.TGit.Commands
                     GitHelper.GetSshSetup() +
                     FormatCliCommand($"checkout {flowOptions.DevelopBranch}") +
                     FormatCliCommand("pull") +
-                    FormatCliCommand($"checkout -b {flowOptions.FeaturePrefix}{featureName} {flowOptions.DevelopBranch}", false),
+                    FormatCliCommand($"checkout -b {flowOptions.FeaturePrefix}{featureName} {flowOptions.DevelopBranch}") +
+                    FormatCliCommand("push -u origin HEAD", false),
                 $"Starting feature {featureName}"
             );
         }
@@ -154,7 +155,8 @@ namespace SamirBoulema.TGit.Commands
                     GitHelper.GetSshSetup() +
                     FormatCliCommand($"checkout {featureMainBranch}") +
                     FormatCliCommand("pull") +
-                    FormatCliCommand($"checkout -b {featureMainBranchPrefix}{featureBranchName} {featureMainBranch}", false),
+                    FormatCliCommand($"checkout -b {featureMainBranchPrefix}{featureBranchName} {featureMainBranch}") +
+                    FormatCliCommand("push -u origin HEAD", false),
                 $"Starting feature-branch {featureBranchName}"
             );
         }
