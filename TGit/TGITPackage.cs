@@ -48,20 +48,19 @@ namespace SamirBoulema.TGit
             // Add all menus
             var tgitMenu = CommandHelper.CreateCommand(PkgCmdIDList.TGitMenu);
             var tgitContextMenu = CommandHelper.CreateCommand(PkgCmdIDList.TGitContextMenu);
-            //switch (_dte.Version)
-            //{
-            //    case "11.0":
-            //    case "12.0":
-            //        tgitMenu.Text = "TGIT";
-            //        tgitContextMenu.Text = "TGIT";
-            //        break;
-            //    default:
-            //        tgitMenu.Text = "TGit";
-            //        tgitContextMenu.Text = "TGit";
-            //        break;
-            //}
-            tgitMenu.Text = "BOKA";
-            tgitContextMenu.Text = "BOKA";
+            switch (_dte.Version)
+            {
+                case "11.0":
+                case "12.0":
+                    tgitMenu.Text = "TGIT";
+                    tgitContextMenu.Text = "TGIT";
+                    break;
+                default:
+                    tgitMenu.Text = "TGit";
+                    tgitContextMenu.Text = "TGit";
+                    break;
+            }
+
             mcs.AddCommand(tgitMenu);
             mcs.AddCommand(tgitContextMenu);
 
