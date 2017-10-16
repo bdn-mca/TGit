@@ -11,6 +11,7 @@ namespace SamirBoulema.TGit
         public string HotfixPrefix;
         public string TagPrefix;
         public string BugTraqMessage;
+        public string LastFeatureBranchFullName;
 
         public GitConfig()
         {
@@ -55,7 +56,11 @@ namespace SamirBoulema.TGit
                 else if (line.StartsWith("bugtraq.message"))
                 {
                     BugTraqMessage = line.Split(' ').Last();
-                }              
+                }
+                else if (line.StartsWith("gitflow.featbranch.last"))
+                {
+                    LastFeatureBranchFullName = line.Split(' ').Last();
+                }
             }
         }
     }

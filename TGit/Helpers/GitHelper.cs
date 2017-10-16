@@ -6,8 +6,6 @@ namespace SamirBoulema.TGit.Helpers
 {
     public static class GitHelper
     {
-        public static string mainFeatureBranchSuffix = "main";
-
         public static string GetCommitMessage(string commitMessageTemplate, DTE dte)
         {
             if (string.IsNullOrEmpty(commitMessageTemplate)) return string.Empty;
@@ -47,6 +45,31 @@ namespace SamirBoulema.TGit.Helpers
             }
 
             return branchName;
+        }
+
+        public static string GetBranchWithoutName(string branchName)
+        {
+            if (string.IsNullOrWhiteSpace(branchName))
+            {
+                branchName = GetCurrentBranchName(false);
+
+                if (string.IsNullOrWhiteSpace(branchName))
+                {
+                    return string.Empty;
+                }
+            }
+
+            int lastSlashIndex = branchName.LastIndexOf('/');
+            int endAtIndex = branchName.Length - lastSlashIndex;
+
+            if (branchName.Length > endAtIndex && endAtIndex > 0)
+            {
+                return branchName.Substring(0, branchName.Length - endAtIndex + 1);
+            }
+            else
+            {
+                return string.Empty;
+            }
         }
 
         public static string GetSshSetup()
