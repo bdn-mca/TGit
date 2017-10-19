@@ -50,10 +50,30 @@ namespace SamirBoulema.TGit.Helpers
             ((OleMenuCommand)sender).Enabled = EnvHelper.HasSolutionDir() && EnvHelper.BranchName.StartsWith(EnvHelper.GitConfig.FeaturePrefix);
         }
 
+        public static void FeatureBranch_BeforeQueryStatus(object sender, EventArgs e)
+        {
+            ((OleMenuCommand)sender).Visible = EnvHelper.HasSolutionDir() && EnvHelper.IsGitFlow;
+            ((OleMenuCommand)sender).Enabled = EnvHelper.HasSolutionDir() && EnvHelper.BranchName.StartsWith(EnvHelper.GitConfig.FeaturePrefix);
+        }
+
         public static void Hotfix_BeforeQueryStatus(object sender, EventArgs e)
         {
             ((OleMenuCommand)sender).Visible = EnvHelper.HasSolutionDir() && EnvHelper.IsGitFlow;
             ((OleMenuCommand)sender).Enabled = EnvHelper.HasSolutionDir() && EnvHelper.BranchName.StartsWith(EnvHelper.GitConfig.HotfixPrefix);
+        }
+
+        public static void StartFeatureBranch_BeforeQueryStatus(object sender, EventArgs e)
+        {
+            ((OleMenuCommand)sender).Visible = EnvHelper.HasSolutionDir() && EnvHelper.IsGitFlow;
+            ((OleMenuCommand)sender).Enabled = EnvHelper.HasSolutionDir() && EnvHelper.BranchName.Equals(EnvHelper.GitConfig.LastFeatureBranchFullName);
+        }
+
+        public static void FinishFeatureBranch_BeforeQueryStatus(object sender, EventArgs e)
+        {
+            ((OleMenuCommand)sender).Visible = EnvHelper.HasSolutionDir() && EnvHelper.IsGitFlow;
+            ((OleMenuCommand)sender).Enabled = EnvHelper.HasSolutionDir()
+                && !string.IsNullOrWhiteSpace(EnvHelper.GitConfig.LastFeatureBranchFullName)
+                && EnvHelper.BranchName.StartsWith(EnvHelper.GitConfig.FeaturePrefix);
         }
 
         public static void Release_BeforeQueryStatus(object sender, EventArgs e)

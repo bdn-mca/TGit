@@ -28,7 +28,7 @@ namespace SamirBoulema.TGit
         {
             base.Initialize();
 
-            _dte = (DTE)GetService(typeof(DTE));        
+            _dte = (DTE)GetService(typeof(DTE));
             var options = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
 
             _events = _dte.Events.SolutionEvents;
@@ -59,7 +59,8 @@ namespace SamirBoulema.TGit
                     tgitMenu.Text = "TGit";
                     tgitContextMenu.Text = "TGit";
                     break;
-            }       
+            }
+
             mcs.AddCommand(tgitMenu);
             mcs.AddCommand(tgitContextMenu);
 
@@ -85,6 +86,6 @@ namespace SamirBoulema.TGit
             EnvHelper.GetGitConfig();
             EnvHelper.GetBranchName();
             EnvHelper.GetStash();
-        }     
+        }
     }
 }

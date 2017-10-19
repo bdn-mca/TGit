@@ -47,6 +47,31 @@ namespace SamirBoulema.TGit.Helpers
             return branchName;
         }
 
+        public static string GetBranchWithoutName(string branchName)
+        {
+            if (string.IsNullOrWhiteSpace(branchName))
+            {
+                branchName = GetCurrentBranchName(false);
+
+                if (string.IsNullOrWhiteSpace(branchName))
+                {
+                    return string.Empty;
+                }
+            }
+
+            int lastSlashIndex = branchName.LastIndexOf('/');
+            int endAtIndex = branchName.Length - lastSlashIndex;
+
+            if (branchName.Length > endAtIndex && endAtIndex > 0)
+            {
+                return branchName.Substring(0, branchName.Length - endAtIndex + 1);
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+
         public static string GetSshSetup()
         {
             var remoteOriginPuttyKeyfile = ProcessHelper.StartProcessGitResult("config --get remote.origin.puttykeyfile");
